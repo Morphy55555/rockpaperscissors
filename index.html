@@ -6,14 +6,29 @@
     <title>Document</title>
 </head>
 <body>
-    
+    <H3 id="playerS">Player Score:</H3>
+    <H3 id="computerS">Computer Score:</H3>
+    <button id="rock">Rock</button>
+    <button id="paper">Paper </button>
+    <button id="scissors">Scissors</button>
+    <div></div>
 </body>
 
 <script>
-    let computerScore = 0;
-    let playerScore = 0; 
 
-    for (i = 0; playerScore || computerScore < 5; i++) {
+    const buttons = document.querySelectorAll('button');
+    const resultsDiv = document.querySelector('div');
+    const playerScoreH3 = document.querySelector('#playerS');
+    const computerScoreH3 =  document.querySelector('#computerS');
+
+   
+
+    let computerScore = 0;
+    let playerScore = 0;
+
+    
+
+    // for (i = 0; playerScore || computerScore < 5; i++) {
     function getComputerChoice() {
         let randNum = Math.floor(Math.random() * 3 + 1);
         switch (randNum) {
@@ -31,39 +46,69 @@
                 break;
         }
     }
-    // getComputerChoice();
-
-    function getPlayerChoice() {
-        let playerInput = prompt("Rock, Paper or Scissors?");
-        let playerChoice = playerInput.toLowerCase();
-        console.log(playerChoice);
-        return playerChoice;
-    }
-    // getPlayerChoice();
-
-    const humanSelection = getPlayerChoice();
+    
+    buttons.forEach((button) => {
+    button.addEventListener('click', (e) => { 
+    humanSelection = e.target.id;
+        
     const computerSelection = getComputerChoice();
 
     function gameLoop(humanChoice, computerChoice){
        if (humanChoice === computerChoice) {
+            resultsPara = document.createElement('p');
+            resultsPara.textContent = `Its a tie! The computer chose ${computerChoice}.`;
+            resultsDiv.appendChild(resultsPara);
         alert("It's a tie");
        } else if (
         (humanChoice === "rock" && computerChoice === "scissors") ||
         (humanChoice === "scissors" && computerChoice === "paper") ||
         (humanChoice === "paper" && computerChoice === "rock")) {
+            resultsPara = document.createElement('p');
+            resultsPara.textContent = `Player wins! The computer chose ${computerChoice}.`;
+            resultsDiv.appendChild(resultsPara);
+            resultsDiv.replaceChildren(resultsPara, resultsPara);
             alert("Player wins!");
             playerScore +=1;
         } else {
+            resultsPara = document.createElement('p');
+            resultsPara.textContent = `Computer wins! The computer chose ${computerChoice}.`;
+            resultsDiv.replaceChildren(resultsPara, resultsPara);
             alert("Computer wins!");
             computerScore +=1;
         }
     
     }
-
     
     gameLoop(humanSelection, computerSelection);
+    
+    playerSpan = document.createElement('span');
+    playerSpan.textContent = `Player Score: ${playerScore}`;
+    playerScoreH3.appendChild(playerSpan);
+    if (playerScore === 5) {
+        computerScore = 0;
+        playerScore = 0;
+        alert("The player has won! Woooooooo!")
+    }
+    playerScoreH3.replaceChildren(playerSpan, playerSpan);
+
+    
+
+    computerSpan = document.createElement('span');
+    computerSpan.textContent = `Computer score: ${computerScore}`;
+    computerScoreH3.appendChild(computerSpan);
+    if (computerScore === 5) {
+        computerScore = 0;
+        playerScore = 0; 
+        alert("The computer has won! Got bested by an NPC fella!");
+    }
+    computerScoreH3.replaceChildren(computerSpan,computerSpan);
+    
+    
     console.log(`Player score is ${playerScore}`);
     console.log(`Computer score is ${computerScore}`);
-}
+    });
+
+});
+//}
 </script>
 </html>
